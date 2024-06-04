@@ -1,4 +1,6 @@
-﻿namespace CMS_API.Models.Domain
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace CMS_API.Models.Domain
 {
     public class Customer
     {
@@ -11,6 +13,6 @@
 
         public required string Phone { get; set; }
 
-        public string? Address { get; set; }
+        public required string Address { get; set; }
     }
 }

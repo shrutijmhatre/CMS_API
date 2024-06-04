@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMS_API.Migrations
 {
     [DbContext(typeof(CustomerDbContext))]
-    [Migration("20240604170711_Initial Migartion")]
-    partial class InitialMigartion
+    [Migration("20240604224716_Latest migration")]
+    partial class Latestmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,7 @@ namespace CMS_API.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
