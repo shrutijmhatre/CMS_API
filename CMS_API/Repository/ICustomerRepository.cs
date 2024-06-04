@@ -9,5 +9,7 @@ namespace CMS_API.Repository
         Task<Customer?> GetCustomerByIdAsync(Guid id);
 
         Task<Customer> CreateCustomerAsync(Customer customer);
+
+        Task<Customer?> UpdateCustomerAsync(Guid id, Customer customer);
     }
 }

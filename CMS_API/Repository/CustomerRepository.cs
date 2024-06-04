@@ -28,5 +28,24 @@ namespace CMS_API.Repository
             await dbContext.SaveChangesAsync();
             return customer;
         }
+
+        public async Task<Customer?> UpdateCustomerAsync(Guid id, Customer customer)
+        {
+            var existingCustomer = await dbContext.Customers.FirstOrDefaultAsync(x => x.CustomerId == id);
+
+            if (existingCustomer == null)
+            {
+                return null;
+            }
+
+            existingCustomer.FirstName = customer.FirstName;
+            existingCustomer.LastName = customer.LastName;
+            existingCustomer.Email = customer.Email;
+            existingCustomer.Phone = customer.Phone;
+            existingCustomer.Address = customer.Address;
+
+            await dbContext.SaveChangesAsync();
+            return existingCustomer;
+        }
     }
 }

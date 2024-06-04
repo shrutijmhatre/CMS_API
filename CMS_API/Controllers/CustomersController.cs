@@ -72,5 +72,26 @@ namespace CMS_API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = customerDto.CustomerId }, customerDto);
 
         }
+
+        // Update region
+        // PUT: https://localhost:portnumber/api/regions/{id}
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateCustomerRequestDto updateCustomerRequestDto)
+        {
+
+            // Map DTO to Domain Model
+            var customerDomainModel = mapper.Map<Customer>(updateCustomerRequestDto);
+
+            // Check if region exists
+            customerDomainModel = await customerRepository.UpdateCustomerAsync(id, customerDomainModel);
+
+            if (customerDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<CustomerDto>(customerDomainModel));
+        }
     }
 }
