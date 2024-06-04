@@ -16,5 +16,17 @@ namespace CMS_API.Repository
         {
             return await dbContext.Customers.ToListAsync();
         }
+
+        public async Task<Customer?> GetCustomerByIdAsync(Guid id)
+        {
+            return await dbContext.Customers.FirstOrDefaultAsync(x => x.CustomerId == id);
+        }
+
+        public async Task<Customer> CreateCustomerAsync(Customer customer)
+        {
+            await dbContext.Customers.AddAsync(customer);
+            await dbContext.SaveChangesAsync();
+            return customer;
+        }
     }
 }

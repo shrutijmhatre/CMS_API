@@ -9,6 +9,8 @@ namespace CMS_API.Mappings
         public AutoMapperProfiles()
         {
                 CreateMap<Customer, CustomerDto>().ReverseMap();
+                CreateMap<AddCustomerRequestDto, Customer>().ReverseMap();
+                CreateMap<UpdateCustomerRequestDto, Customer>().ReverseMap();
         }
     }
 }
