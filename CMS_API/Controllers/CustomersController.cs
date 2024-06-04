@@ -14,13 +14,11 @@ namespace CMS_API.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly CustomerDbContext dbContext;
         private readonly ICustomerRepository customerRepository;
         private readonly IMapper mapper;
 
-        public CustomersController(CustomerDbContext dbContext, ICustomerRepository customerRepository, IMapper mapper)
+        public CustomersController( ICustomerRepository customerRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.customerRepository = customerRepository;
             this.mapper = mapper;
         }
