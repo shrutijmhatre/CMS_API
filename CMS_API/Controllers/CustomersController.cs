@@ -73,8 +73,8 @@ namespace CMS_API.Controllers
 
         }
 
-        // Update region
-        // PUT: https://localhost:portnumber/api/regions/{id}
+        // Update customer
+        // PUT: https://localhost:port/api/customers/{id}
         [HttpPut]
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateCustomerRequestDto updateCustomerRequestDto)
@@ -83,7 +83,7 @@ namespace CMS_API.Controllers
             // Map DTO to Domain Model
             var customerDomainModel = mapper.Map<Customer>(updateCustomerRequestDto);
 
-            // Check if region exists
+            // Check if customer exists
             customerDomainModel = await customerRepository.UpdateCustomerAsync(id, customerDomainModel);
 
             if (customerDomainModel == null)
@@ -92,6 +92,22 @@ namespace CMS_API.Controllers
             }
 
             return Ok(mapper.Map<CustomerDto>(customerDomainModel));
+        }
+
+        // Delete Customer
+        // DELETE: https://localhost:port/api/customers/{id}
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var regionDomainModel = await customerRepository.DeleteCustomerAsync(id);
+
+            if (regionDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<CustomerDto>(regionDomainModel));
         }
     }
 }

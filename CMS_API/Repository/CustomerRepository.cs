@@ -47,5 +47,19 @@ namespace CMS_API.Repository
             await dbContext.SaveChangesAsync();
             return existingCustomer;
         }
+
+        public async Task<Customer?> DeleteCustomerAsync(Guid id)
+        {
+            var existingCustomer = await dbContext.Customers.FirstOrDefaultAsync(x => x.CustomerId == id);
+
+            if (existingCustomer == null)
+            {
+                return null;
+            }
+
+            dbContext.Customers.Remove(existingCustomer);
+            await dbContext.SaveChangesAsync();
+            return existingCustomer;
+        }
     }
 }

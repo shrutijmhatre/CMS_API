@@ -11,5 +11,7 @@ namespace CMS_API.Repository
         Task<Customer> CreateCustomerAsync(Customer customer);
 
         Task<Customer?> UpdateCustomerAsync(Guid id, Customer customer);
+
+        Task<Customer?> DeleteCustomerAsync(Guid id);
     }
 }
