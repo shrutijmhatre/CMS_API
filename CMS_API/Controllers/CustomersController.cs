@@ -58,17 +58,23 @@ namespace CMS_API.Controllers
         // POST: https://localhost:port/api/customers
         [HttpPost]
         public async Task<IActionResult> CreateNew([FromBody] AddCustomerRequestDto addCustomerRequestDto) {
-            // Map or Convert DTO to Domain model
-            var customerDomainModel = mapper.Map<Customer>(addCustomerRequestDto);
+            try
+            {
+                // Map or Convert DTO to Domain model
+                var customerDomainModel = mapper.Map<Customer>(addCustomerRequestDto);
 
-            // Use Domain model to create Customer
-            customerDomainModel = await customerRepository.CreateCustomerAsync(customerDomainModel);
+                // Use Domain model to create Customer
+                customerDomainModel = await customerRepository.CreateCustomerAsync(customerDomainModel);
 
-            // Map Domain model back to DTO
-            var customerDto = mapper.Map<CustomerDto>(customerDomainModel);
+                // Map Domain model back to DTO
+                var customerDto = mapper.Map<CustomerDto>(customerDomainModel);
 
-            return CreatedAtAction(nameof(GetById), new { id = customerDto.CustomerId }, customerDto);
-
+                return CreatedAtAction(nameof(GetById), new { id = customerDto.CustomerId }, customerDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }         
         }
 
         // Update customer

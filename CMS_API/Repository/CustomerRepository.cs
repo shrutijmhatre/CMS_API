@@ -24,6 +24,12 @@ namespace CMS_API.Repository
 
         public async Task<Customer> CreateCustomerAsync(Customer customer)
         {
+            // Check if email is unique
+            if (await dbContext.Customers.AnyAsync(c => c.Email == customer.Email))
+            {
+                throw new ArgumentException("A customer with this email already exists.");
+            }
+
             await dbContext.Customers.AddAsync(customer);
             await dbContext.SaveChangesAsync();
             return customer;

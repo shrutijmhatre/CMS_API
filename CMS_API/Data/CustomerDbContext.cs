@@ -11,5 +11,14 @@ namespace CMS_API.Data
         }
 
         public DbSet<Customer> Customers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Customer>()
+                .HasIndex(c => c.Email)
+                .IsUnique();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
