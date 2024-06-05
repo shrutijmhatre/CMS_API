@@ -1,6 +1,6 @@
 ﻿namespace CMS_API.Models.DTO
 {
-    public class LoginResponseDto
+    public class JWTResponseDto
     {
         public string JwtToken { get; set; }
     }

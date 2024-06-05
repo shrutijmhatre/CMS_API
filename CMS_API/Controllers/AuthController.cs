@@ -36,14 +36,22 @@ namespace CMS_API.Controllers
 
             if (identityResult.Succeeded)
             {
-                return Ok("User was registered! Please login.");
+                // Create Token
+
+                var jwtToken = tokenRepository.CreateJWTToken(identityUser);
+
+                var response = new JWTResponseDto
+                {
+                    JwtToken = jwtToken
+                };
+                return Ok(response);
             }
             else
             {
                 // Handle creation errors
                 foreach (var error in identityResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError("error", error.Description);
                 }
                 return BadRequest(ModelState);
             }
@@ -66,7 +74,7 @@ namespace CMS_API.Controllers
 
                         var jwtToken = tokenRepository.CreateJWTToken(user);
 
-                        var response = new LoginResponseDto
+                        var response = new JWTResponseDto
                         {
                             JwtToken = jwtToken
                         };
