@@ -5,7 +5,7 @@ namespace CMS_API.Data
 {
     public class CustomerDbContext: DbContext
     {
-        public CustomerDbContext(DbContextOptions dbContextOptions): base(dbContextOptions)
+        public CustomerDbContext(DbContextOptions<CustomerDbContext> dbContextOptions): base(dbContextOptions)
         {
                 
         }

@@ -3,6 +3,7 @@ using CMS_API.Data;
 using CMS_API.Models.Domain;
 using CMS_API.Models.DTO;
 using CMS_API.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,15 +13,20 @@ namespace CMS_API.Controllers
     // https://localhost:port/api/customers
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerRepository customerRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<CustomersController> logger;
 
-        public CustomersController( ICustomerRepository customerRepository, IMapper mapper)
+        public CustomersController( ICustomerRepository customerRepository, 
+            IMapper mapper,
+            ILogger<CustomersController> logger)
         {
             this.customerRepository = customerRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         // GET ALL CUSTOMERS
