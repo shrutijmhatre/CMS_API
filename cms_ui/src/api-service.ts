@@ -7,8 +7,14 @@ import { CustomerType } from "./types";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 
-export const fetchCustomerList = async (): Promise<CustomerType[]> => {
-    const response = await fetch(`${API_BASE_URL}/api/Customers`);
+export const fetchCustomerList = async (token:string): Promise<CustomerType[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/Customers`, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+    });
   
     if (!response.ok) {
       throw new Error("Error fetching customers");
@@ -17,9 +23,13 @@ export const fetchCustomerList = async (): Promise<CustomerType[]> => {
     return response.json();
 };
 
-export const deleteCustomer = async (id:string) => {
+export const deleteCustomer = async (id:string, token:string) => {
     const response = await fetch(`${API_BASE_URL}/api/customers/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
     });
   
     if (!response.ok) {
@@ -29,12 +39,13 @@ export const deleteCustomer = async (id:string) => {
     return response.json();
 };
 
-export const addCustomer = async (payload: SubmitFormData ) => {
+export const addCustomer = async (payload: SubmitFormData, token:string ) => {
     const response = await fetch(`${API_BASE_URL}/api/customers`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-          },
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(payload),
       });
     
@@ -45,8 +56,14 @@ export const addCustomer = async (payload: SubmitFormData ) => {
       return body;
 };
 
-export const fetchCustomerById = async (id:string): Promise<CustomerType> => {
-  const response = await fetch(`${API_BASE_URL}/api/customers/${id}`);
+export const fetchCustomerById = async (id:string, token:string): Promise<CustomerType> => {
+  const response = await fetch(`${API_BASE_URL}/api/customers/${id}`, {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+  });
 
   if (!response.ok) {
     throw new Error("Error fetching customer by Id");
@@ -55,12 +72,13 @@ export const fetchCustomerById = async (id:string): Promise<CustomerType> => {
   return response.json();
 };
 
-export const updateCustomerById = async (payload: EditFormData, id:string) => {
+export const updateCustomerById = async (payload: EditFormData, id:string, token:string) => {
   
   const response = await fetch(`${API_BASE_URL}/api/customers/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
     },
     body: JSON.stringify(payload),
   });
@@ -70,10 +88,9 @@ export const updateCustomerById = async (payload: EditFormData, id:string) => {
     throw new Error(body.message);
   }
   return body;
-
 };
 
-export const registerUser = async (payload: SignUpForm ) => {
+export const registerUser = async (payload: SignUpForm) => {
   const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
       method: "POST",
       headers: {

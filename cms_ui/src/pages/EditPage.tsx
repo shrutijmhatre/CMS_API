@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import * as apiService from "../api-service";
 import { useForm } from "react-hook-form";
+import { useCookies } from "react-cookie";
 
 export type EditFormData = {
   firstName: string;
@@ -16,9 +17,11 @@ const EditPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const [cookies] = useCookies(["token"]);
+
   const { data: customerItemData, isLoading: isLoadingCustomerItem } = useQuery(
     ["fetchCustomerItem", id],
-    () => apiService.fetchCustomerById(id || ""),
+    () => apiService.fetchCustomerById(id || "", cookies.token),
     {
       enabled: !!id,
     }
@@ -32,7 +35,8 @@ const EditPage = () => {
   } = useForm<EditFormData>();
 
   const { mutate, isLoading: isEditingCustomer } = useMutation(
-    (payload: EditFormData) => apiService.updateCustomerById(payload, id || ""),
+    (payload: EditFormData) =>
+      apiService.updateCustomerById(payload, id || "", cookies.token),
     {
       onSuccess: async () => {
         navigate("/");

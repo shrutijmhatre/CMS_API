@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import * as apiService from "../api-service";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export type LoginForm = {
   username: string;
@@ -10,6 +11,7 @@ export type LoginForm = {
 
 const Login = () => {
   const navigate = useNavigate();
+  const [, setCookie] = useCookies(["token"]);
 
   const {
     register,
@@ -20,11 +22,12 @@ const Login = () => {
   const { mutate, isLoading: isRegisteringUser } = useMutation(
     (payload: LoginForm) => apiService.loginUser(payload),
     {
-      onSuccess: async () => {
+      onSuccess: async (data) => {
+        setCookie("token", data.jwtToken, { path: "/" });
         navigate("/");
       },
-      onError: (error: Error) => {
-        console.log(error.message);
+      onError: (error) => {
+        console.log(error);
       },
     }
   );

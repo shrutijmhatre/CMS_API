@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as apiService from "../api-service";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export type SubmitFormData = {
   firstName: string;
@@ -15,6 +16,8 @@ export type SubmitFormData = {
 const NewPage = () => {
   const navigate = useNavigate();
 
+  const [cookies] = useCookies(["token"]);
+
   const {
     register,
     formState: { errors },
@@ -22,7 +25,7 @@ const NewPage = () => {
   } = useForm<SubmitFormData>();
 
   const { mutate, isLoading: isCreatingNewCustomer } = useMutation(
-    (payload: SubmitFormData) => apiService.addCustomer(payload),
+    (payload: SubmitFormData) => apiService.addCustomer(payload, cookies.token),
     {
       onSuccess: async () => {
         navigate("/");

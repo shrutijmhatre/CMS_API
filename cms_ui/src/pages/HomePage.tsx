@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as apiService from "../api-service";
 import { CustomerType } from "../types";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const HomePage = () => {
   const TableHeaderLabels = [
@@ -13,21 +14,25 @@ const HomePage = () => {
     "Address",
   ];
 
+  const [cookies] = useCookies(["token"]);
   const { data: customersListData, isLoading: isLoadingCustomers } = useQuery(
     "fetchCustomersList",
-    apiService.fetchCustomerList
+    () => apiService.fetchCustomerList(cookies.token)
   );
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(apiService.deleteCustomer, {
-    onSuccess: async () => {
-      await queryClient.invalidateQueries("fetchCustomersList");
-    },
-    onError: (error: Error) => {
-      console.log(error.message);
-    },
-  });
+  const { mutate } = useMutation(
+    (id: string) => apiService.deleteCustomer(id, cookies.token),
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries("fetchCustomersList");
+      },
+      onError: (error: Error) => {
+        console.log(error.message);
+      },
+    }
+  );
 
   const deleteCustomerItem = (id: string) => {
     mutate(id);
