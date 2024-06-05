@@ -1,5 +1,7 @@
 import { EditFormData } from "./pages/EditPage";
+import { LoginForm } from "./pages/Login";
 import { SubmitFormData } from "./pages/NewPage";
+import { SignUpForm } from "./pages/SignUp";
 import { CustomerType } from "./types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
@@ -69,4 +71,36 @@ export const updateCustomerById = async (payload: EditFormData, id:string) => {
   }
   return body;
 
+};
+
+export const registerUser = async (payload: SignUpForm ) => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+        },
+      body: JSON.stringify(payload),
+    });
+  
+    const body = await response.json();
+    if (!response.ok) {
+      throw new Error("Error adding new customer");
+    }
+    return body;
+};
+
+export const loginUser = async (payload: LoginForm ) => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+        },
+      body: JSON.stringify(payload),
+    });
+  
+    const body = await response.json();
+    if (!response.ok) {
+      throw new Error("Error during login");
+    }
+    return body;
 };
