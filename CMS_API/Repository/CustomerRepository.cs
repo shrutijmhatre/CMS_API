@@ -14,12 +14,12 @@ namespace CMS_API.Repository
         }
         public async Task<List<Customer>> GetAllCustomersAsync()
         {
-            return await dbContext.Customers.ToListAsync();
+            return await dbContext.Customers.AsNoTracking().ToListAsync();
         }
 
         public async Task<Customer?> GetCustomerByIdAsync(Guid id)
         {
-            return await dbContext.Customers.FirstOrDefaultAsync(x => x.CustomerId == id);
+            return await dbContext.Customers.AsNoTracking().FirstOrDefaultAsync(x => x.CustomerId == id);
         }
 
         public async Task<Customer> CreateCustomerAsync(Customer customer)
