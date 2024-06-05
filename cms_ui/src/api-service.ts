@@ -1,3 +1,4 @@
+import { EditFormData } from "./pages/EditPage";
 import { SubmitFormData } from "./pages/NewPage";
 import { CustomerType } from "./types";
 
@@ -37,7 +38,35 @@ export const addCustomer = async (payload: SubmitFormData ) => {
     
       const body = await response.json();
       if (!response.ok) {
-        throw new Error(body.message);
+        throw new Error("Error adding new customer");
       }
       return body;
-  };
+};
+
+export const fetchCustomerById = async (id:string): Promise<CustomerType> => {
+  const response = await fetch(`${API_BASE_URL}/api/customers/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Error fetching customer by Id");
+  }
+
+  return response.json();
+};
+
+export const updateCustomerById = async (payload: EditFormData, id:string) => {
+  
+  const response = await fetch(`${API_BASE_URL}/api/customers/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error(body.message);
+  }
+  return body;
+
+};
