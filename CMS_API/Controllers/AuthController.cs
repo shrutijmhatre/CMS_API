@@ -1,8 +1,10 @@
 ﻿using CMS_API.Models.DTO;
 using CMS_API.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CMS_API.Controllers
 {
@@ -36,8 +38,15 @@ namespace CMS_API.Controllers
             {
                 return Ok("User was registered! Please login.");
             }
-
-            return BadRequest("Something went wrong");
+            else
+            {
+                // Handle creation errors
+                foreach (var error in identityResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
         }
 
         // POST: /api/Auth/Login
