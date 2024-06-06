@@ -11,7 +11,8 @@ git clone "github-url"
 #### Update the appsettings.json file with your database connection string:
 ```
 "ConnectionStrings": {
-    "DefaultConnection": "Server=your_server_name;Database=your_database_name;Trusted_Connection=true;TrustServerCertificate=true;"
+    "DefaultConnectionString": "Server=your_server_name;Database=your_database_name;Trusted_Connection=true;TrustServerCertificate=true;",
+    "AuthConnectionString": "Server=your_server_name;Database=auth_database_name;Trusted_Connection=true;TrustServerCertificate=true;"
 }
 ```
 
