@@ -18,7 +18,7 @@ namespace CMS_API.Models.DTO
         public required string Email { get; set; }
 
         [Required]
-        [RegularExpression("\\+?[1-9]\\d{1,14}\r\n", ErrorMessage = "Phone number must be valid")]
+        [RegularExpression("^\\+?(\\d{1,3})?[-.\\s]?(\\(?\\d{1,4}\\)?)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$", ErrorMessage = "Phone must be valid")]
         public required string Phone { get; set; }
 
         [Required(ErrorMessage = "Address is required")]
