@@ -14,3 +14,11 @@ git clone "github-url"
     "DefaultConnection": "Server=your_server_name;Database=your_database_name;Trusted_Connection=true;TrustServerCertificate=true;"
 }
 ```
+
+####### Start the projects for both frontend and backend
+
+Open the Package Manager Console in Visual Studio. Run the following command to apply migrations and create the database.
+```
+dotnet ef database update
+```
+
