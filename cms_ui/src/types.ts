@@ -6,3 +6,7 @@ export type CustomerType = {
     phone: string;
     address: string;
 }
+
+export type JWTToken ={
+    jwtToken: string
+}

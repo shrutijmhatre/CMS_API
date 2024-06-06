@@ -2,10 +2,10 @@ import { EditFormData } from "./pages/EditPage";
 import { LoginForm } from "./pages/Login";
 import { SubmitFormData } from "./pages/NewPage";
 import { SignUpForm } from "./pages/SignUp";
-import { CustomerType } from "./types";
+import { CustomerType, JWTToken } from "./types";
+
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
-
 
 export const fetchCustomerList = async (token:string): Promise<CustomerType[]> => {
     const response = await fetch(`${API_BASE_URL}/api/Customers`, {
@@ -90,7 +90,7 @@ export const updateCustomerById = async (payload: EditFormData, id:string, token
   return body;
 };
 
-export const registerUser = async (payload: SignUpForm) => {
+export const registerUser = async (payload: SignUpForm): Promise<JWTToken> => {
   const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
       method: "POST",
       headers: {
@@ -106,7 +106,7 @@ export const registerUser = async (payload: SignUpForm) => {
     return body;
 };
 
-export const loginUser = async (payload: LoginForm ) => {
+export const loginUser = async (payload: LoginForm ): Promise<JWTToken> => {
   const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: {

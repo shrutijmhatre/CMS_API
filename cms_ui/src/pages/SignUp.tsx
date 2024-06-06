@@ -3,6 +3,7 @@ import * as apiService from "../api-service";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { ToastContainer, toast } from "react-toastify";
 
 export type SignUpForm = {
   username: string;
@@ -19,7 +20,7 @@ const SignUp = () => {
     handleSubmit,
   } = useForm<SignUpForm>();
 
-  const { mutate, isLoading: isRegisteringUser } = useMutation(
+  const { mutate } = useMutation(
     (payload: SignUpForm) => apiService.registerUser(payload),
     {
       onSuccess: async (data) => {
@@ -28,6 +29,7 @@ const SignUp = () => {
       },
       onError: (error: Error) => {
         console.log(error.message);
+        toast.error("Error during signup");
       },
     }
   );
@@ -36,11 +38,9 @@ const SignUp = () => {
     mutate(data);
   });
 
-  if (isRegisteringUser) {
-    return <h3>Registering User...</h3>;
-  }
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      <ToastContainer />
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -79,10 +79,12 @@ const SignUp = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   {...register("password", {
                     required: "Password is required",
-                    /* pattern: {
-                      value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                      message: "Invalid password",
-                    }, */
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+                      message:
+                        "Please provide password with : Minimum of 8 characters having one lowercase letter, one uppercase letter, one digit and one special character.",
+                    },
                   })}
                 />
                 {errors.password && (
