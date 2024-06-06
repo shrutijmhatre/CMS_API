@@ -15,7 +15,7 @@ git clone "github-url"
 }
 ```
 
-####### Start the projects for both frontend and backend
+#### Start the projects for both frontend and backend in Visual Studio
 
 Open the Package Manager Console in Visual Studio. Run the following command to apply migrations and create the database.
 ```
