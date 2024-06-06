@@ -6,7 +6,7 @@
 # Getting Started
 ## Clone the Repository
 
-git clone <github-url>
+git clone "github-url"
 
 #### Update the appsettings.json file with your database connection string:
 ```
